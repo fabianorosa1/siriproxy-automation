@@ -27,6 +27,31 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
     #    modifications made to it)
   end
 
+  listen_for /turn on/i do
+    say "Turning lights on"
+    request_completed
+
+    system("gpio mode 0 out")
+    system("gpio mode 1 out")
+ 
+    system("gpio write 0 1")
+    system("sleep 0.5")
+    system("gpio write 1 1")
+  end
+
+  listen_for /turn off/i do
+    say "Turning lights off"  
+    request_completed
+
+    system("gpio write 1 0")
+    system("sleep 0.5")
+    system("gpio write 0 0")
+
+    system("gpio mode 0 in")
+    system("gpio mode 1 in")
+ 
+  end
+  
   listen_for /where am i/i do
     say "Your location is: #{location.address}"
   end
