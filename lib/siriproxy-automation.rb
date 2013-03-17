@@ -79,6 +79,10 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
  
   end
   
+  def log(text)
+      puts "[Info - Automation] #{text}" if $LOG_LEVEL >= 1
+  end
+    
   listen_for /where am i/i do
     say "Your location is: #{location.address}"
   end
