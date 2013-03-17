@@ -13,7 +13,7 @@ require 'pp'
 class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   def initialize(config)
     #if you have custom configuration options, process them here!
-    puts "[Automation] - Inicializando o plugin Automation"
+    log "Inicializando o plugin Automation"
   end
 
   #get the user's location and display it in the logs
@@ -29,19 +29,19 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   end
 
   listen_for /hello/i do
-    puts "[Automation] - Metodo hello!"
+    log "Metodo hello!"
     
     object = SiriAddViews.new
 
-		object.make_root(last_ref_id)
+    object.make_root(last_ref_id)
 
-		answer = SiriAnswer.new("program_name", [
-			SiriAnswerLine.new("logo", "http://www.ourguide.com.au/images/station_images/ABC2.png"),
-			SiriAnswerLine.new("Test hello world"),
-			SiriAnswerLine.new("ready!")
-		])
+    answer = SiriAnswer.new("Funcionou!", [
+             SiriAnswerLine.new("logo", "http://www.ourguide.com.au/images/station_images/ABC2.png"),
+             SiriAnswerLine.new("Test hello world"),
+             SiriAnswerLine.new("ready!")
+    ])
 	
-		object.views << SiriAnswerSnippet.new([answer])
+    object.views << SiriAnswerSnippet.new([answer])
 
 		send_object object
 
@@ -51,7 +51,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   end 
     
   listen_for /turn on/i do
-    puts "[Automation] - Entrou no metodo turn on!"
+    log "Entrou no metodo turn on!"
     
     say "Turning lights on"
     request_completed
@@ -65,7 +65,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   end
 
   listen_for /turn off/i do
-    puts "[Automation] - Entrou no metodo turn off!"
+    log "Entrou no metodo turn off!"
     
     say "Turning lights off"  
     request_completed
@@ -80,7 +80,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   end
   
   def log(text)
-      puts "[Info - Automation] #{text}" if $LOG_LEVEL >= 1
+      puts "[Info - Automation] >>> #{text}" if $LOG_LEVEL >= 1
   end
     
   listen_for /where am i/i do
