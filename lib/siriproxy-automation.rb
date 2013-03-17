@@ -35,7 +35,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
 
 		object.make_root(last_ref_id)
 
-		answer = SiriAnswer.new(program_name, [
+		answer = SiriAnswer.new("program_name", [
 			SiriAnswerLine.new("logo", "http://www.ourguide.com.au/images/station_images/ABC2.png"),
 			SiriAnswerLine.new("Test hello world"),
 			SiriAnswerLine.new("ready!")
