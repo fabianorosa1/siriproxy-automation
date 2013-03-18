@@ -28,7 +28,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
     #    modifications made to it)
   end
 
-  listen_for /hello/i do
+  listen_for /hello (.+)/i do |name|
     log "Metodo hello!"
     
     object = SiriAddViews.new
@@ -45,7 +45,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
 
 		send_object object
 
-    say "Hello Fabiano!"
+    say "Hello #{name}"
     
 		request_completed      
   end 
