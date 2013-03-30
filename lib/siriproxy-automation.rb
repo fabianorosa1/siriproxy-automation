@@ -1,7 +1,8 @@
 require 'cora'
 require 'siri_objects'
 require 'pp'
-require 'em-mqtt'
+require 'rubygems'
+require 'mqtt
 
 #######
 # This is a "hello world" style plugin. It simply intercepts the phrase "test siri proxy" and responds
@@ -14,7 +15,7 @@ require 'em-mqtt'
 class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   def initialize(config)
     #if you have custom configuration options, process them here!
-    log "Inicializando o plugin Automation"
+    log "Inicializando o plugin Automation com MQTT"
   end
 
   #get the user's location and display it in the logs
@@ -65,7 +66,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
     system("gpio write 1 1")
     
     log "Envia msg MQTT Server"
-    c = ClientConnection.connect('test.mosquitto.org')
+    c = MQTT::Client.connect('test.mosquitto.org')
     c.publish('test', "Turning LEDs ON #{Time.now}")
     c.disconnect()
   end
@@ -84,7 +85,7 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
     system("gpio mode 1 in")
 
     log "Envia msg MQTT Server" 
-    c = ClientConnection.connect('test.mosquitto.org')
+    c = MQTT::Client.connect('test.mosquitto.org')
     c.publish('test', "Turning LEDs OFF #{Time.now}")
     c.disconnect()
   end
