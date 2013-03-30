@@ -15,7 +15,6 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
   def initialize(config)
     #if you have custom configuration options, process them here!
     log "Inicializando o plugin Automation"
-    c = ClientConnection.connect('test.mosquitto.org')
   end
 
   #get the user's location and display it in the logs
@@ -65,7 +64,10 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
     system("sleep 0.5")
     system("gpio write 1 1")
     
+    log "Envia msg MQTT Server"
+    c = ClientConnection.connect('test.mosquitto.org')
     c.publish('test', "Turning LEDs ON #{Time.now}")
+    c.disconnect()
   end
 
   listen_for /turn off/i do
@@ -80,8 +82,11 @@ class SiriProxy::Plugin::Automation < SiriProxy::Plugin
 
     system("gpio mode 0 in")
     system("gpio mode 1 in")
- 
+
+    log "Envia msg MQTT Server" 
+    c = ClientConnection.connect('test.mosquitto.org')
     c.publish('test', "Turning LEDs OFF #{Time.now}")
+    c.disconnect()
   end
   
   def log(text)
