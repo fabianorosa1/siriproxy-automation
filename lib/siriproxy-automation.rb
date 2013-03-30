@@ -1,7 +1,6 @@
 require 'cora'
 require 'siri_objects'
 require 'pp'
-require 'rubygems'
 require 'mqtt
 
 #######
